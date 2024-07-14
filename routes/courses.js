@@ -1,14 +1,17 @@
 const routes = require("express").Router();
 const coursesController = require("../controllers/courses");
 
-routes.post("/courses/create", coursesController.createCourse);
+// require the validation
+const validation = require("../middleware/validation");
 
-routes.get("/courses", coursesController.getAllCourses);
+routes.get("/", coursesController.getAllCourses);
 
-routes.get("/courses/:id", coursesController.getOneCourse);
+routes.get("/:id", coursesController.getOneCourse);
 
-routes.put("/courses/:id", coursesController.updateCourse);
+routes.post("/create", validation.saveCourses, coursesController.createCourse);
 
-routes.delete("/courses/:id", coursesController.deleteCourse);
+routes.put("/:id", validation.saveCourses, coursesController.updateCourse);
+
+routes.delete("/:id", coursesController.deleteCourse);
 
 module.exports = routes;

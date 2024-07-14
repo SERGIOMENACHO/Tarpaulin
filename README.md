@@ -1,2 +1,1 @@
-# Tarpaulin
-Create Users, Courses, Lessons, and Enrollments for the Online Learning Platform Tarpaulin.
+# cse-341-sergio

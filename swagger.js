@@ -5,13 +5,13 @@ const doc = {
     title: "Tarpaulin API Documentation",
     description: "Description",
   },
-  host: "tarpaulin.onrender.com",
-  schemes: ["https"],
+  host: "",
+  schemes: ["http"],
 };
 
-const outputFile = './swagger.json';
-const endpointsFiles = ['./routes/index.js'];
+const outputFile = "./swagger.json";
+const endpointsFiles = ["./routes/index.js"];
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
-    require('./server.js')
-})
+  require("./server.js");
+});

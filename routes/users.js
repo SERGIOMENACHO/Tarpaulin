@@ -1,14 +1,66 @@
-const routes = require("express").Router();
-const usersController = require("../controllers/users");
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const controller = require("../controllers/users");
 
-routes.post("/users/create", usersController.createUser);
+router.get("/home", (req, res, next) => {
+  const form =
+    '<h1>Logged in</h1>\
+            <br><a href="/enrollments">Enrollments</a>\
+            <br><a href="/courses">Courses</a>\
+            <br><a href="/lessons">Lessons</a>\
+            <br><br><a href="/logout">Log Out</a>';
+  res.send(form);
+});
 
-routes.get("/users", usersController.getAllUsers);
+router.get("/login", (req, res, next) => {
+  console.log(req.isAuthenticated());
+  const form =
+    '<h1>Login Page</h1><form method="POST" action="/login">\
+    Enter Email:<br><input type="email" name="email">\
+    <br>Enter Password:<br><input type="password" name="password">\
+    <br><br><input type="submit" value="Submit"></form>';
+  res.send(form);
+});
 
-routes.get("/users/:id", usersController.getOneUser);
+router.get("/register", (req, res, next) => {
+  const form =
+    '<h1>Register Page</h1><form method="post" action="/register">\
+    Enter name:<br><input type="text" name="name">\
+    <br>Enter Email:<br><input type="email" name="email">\
+    <br>Enter Password:<br><input type="password" name="password">\
+    <br>Enter Role (Teacher or Student):<br><input type="text" name="role">\
+    <br>Enter Gender:<br><input type="text" name="gender">\
+    <br><br><input type="submit" value="Submit"></form>';
+  res.send(form);
+});
 
-routes.put("/users/:id", usersController.updateUser);
+router.post("/register", controller.createUser);
 
-routes.delete("/users/:id", usersController.deleteUser);
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return res.status(400).json({ errors: err });
+    }
+    if (!user) {
+      return res.status(400).json({ errors: "Username or Password Incorrect" });
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return res.status(400).json({ errors: "Here is the " + err });
+      }
+      res.redirect("/home");
+    });
+  })(req, res, next);
+});
 
-module.exports = routes;
+router.get("/logout", (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
+});
+
+module.exports = router;
