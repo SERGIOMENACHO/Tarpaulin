@@ -5,7 +5,7 @@ const doc = {
     title: "Tarpaulin API Documentation",
     description: "Description",
   },
-  host: "",
+  host: "tarpaulin.onrender.com",
   schemes: ["http"],
 };
 
