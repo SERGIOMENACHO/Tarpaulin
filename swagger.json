@@ -488,6 +488,16 @@
         }
       }
     },
+    "/test": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/logout": {
       "get": {
         "description": "",

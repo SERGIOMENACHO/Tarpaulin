@@ -47,12 +47,11 @@ app.use(session({
   secret: 'test',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true }
+  cookie: { secure: false }
 }))
 
 app.use(passport.initialize())
 app.use(passport.session())
-
   
 app.use('/', routes)
 

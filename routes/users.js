@@ -4,17 +4,24 @@ const passport = require("passport");
 const controller = require("../controllers/users");
 
 router.get("/home", (req, res, next) => {
-  const form =
-    '<h1>Logged in</h1>\
+  let form;
+  console.log("this is the user" + req.user);
+  if (req.user !== undefined) {
+    form =
+      '<h1>Logged in</h1>\
             <br><a href="/enrollments">Enrollments</a>\
             <br><a href="/courses">Courses</a>\
             <br><a href="/lessons">Lessons</a>\
             <br><br><a href="/logout">Log Out</a>';
+  } else {
+    form =
+      '<h1>Please log in before accessing any information</h1>\
+    <br><br><a href="/login">Log in</a>';
+  }
   res.send(form);
 });
 
 router.get("/login", (req, res, next) => {
-  console.log(req.isAuthenticated());
   const form =
     '<h1>Login Page</h1><form method="POST" action="/login">\
     Enter Email:<br><input type="email" name="email">\
@@ -36,6 +43,10 @@ router.get("/register", (req, res, next) => {
 });
 
 router.post("/register", controller.createUser);
+
+router.get("/test", (req, res, next) => {
+  console.log(req.user);
+});
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", function (err, user, info) {
