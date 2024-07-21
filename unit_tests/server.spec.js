@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../server'); // Adjust the path if necessary
+const app = require('../server.js'); // Adjust the path if necessary
 
 describe('Server', () => {
   
